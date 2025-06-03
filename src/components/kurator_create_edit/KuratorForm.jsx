@@ -5,7 +5,7 @@ import Placeholder from "../../app/assets/img/placeholder.png";
 import { useState } from "react";
 const KuratorForm = () => {
   const { register, handleSubmit } = useForm();
-  const [selectedImages, setSelectedImages] = useState();
+  const [isSelected, setIsSelected] = useState(false);
 
   return (
     <form
@@ -37,7 +37,6 @@ const KuratorForm = () => {
       <input
         className="border-2 border-amber-700"
         defaultValue={"Billeder"}
-        {...register(selectedImages)}
       ></input>
       <li
         onClick={() => {
@@ -51,15 +50,8 @@ const KuratorForm = () => {
           );
           console.log("selectedImages", selectedImages);
         }}
-        className={`${
-          isSelected
-            ? "ring-4 ring-[#A89C9E] cursor-pointer"
-            : isDisabled
-            ? "opacity-50 cursor-not-allowed"
-            : "border-gray-300 cursor-pointer"
-        }
-      relative border-2 aspect-square
-                    `}
+        className={`${isSelected ? "ring-4 ring-[#A89C9E] cursor-pointer" : ""}
+      relative border-2 aspect-square`}
       >
         {image_thumbnail === "https://api.smk.dk/api/v1/thumbnail/PD" ? (
           <div className="bg-btn-bg/50 text-white grid place-content-center p-2 w-full aspect-square">
