@@ -15,7 +15,7 @@ const KuratorForm = (
   image_height,
   title
 ) => {
-  console.log("KuratorForm", images);
+  console.log("KuratorForm", images.images);
   const { register, handleSubmit } = useForm();
   const [isSelected, setIsSelected] = useState(false);
 
@@ -50,7 +50,20 @@ const KuratorForm = (
         className="border-2 border-amber-700"
         defaultValue={"Billeder"}
       ></input>
-      <li>{images.map((img) => {})}</li>
+      <li>
+        {images.images.map((img) => {
+          return (
+            <Image
+              key={img.id}
+              src={img.image_thumbnail || img.image_native || Placeholder}
+              width={img.image_width || 400}
+              height={img.image_height || 400}
+              alt={img.title || "SMK billede"}
+              className="object-cover w-full h-full"
+            />
+          );
+        })}
+      </li>
       <CustomButton type="Submit" text="Submit"></CustomButton>
     </form>
   );
