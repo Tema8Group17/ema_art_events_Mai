@@ -50,7 +50,7 @@ const KuratorForm = (
         className="border-2 border-amber-700"
         defaultValue={"Billeder"}
       ></input>
-      <li>
+      <li className="relative border-2 aspect-square">
         {images.images.map((img) => {
           return (
             <Image
