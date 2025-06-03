@@ -23,7 +23,7 @@ const KuratorForm = (
   return (
     <form
       onSubmit={handleSubmit((data) => {
-        console.log(data);
+        console.log("onSubmit: ", data, "selectedImages", selectedImages);
       })}
       className="flex flex-col gap-(--space-2rem)"
     >
@@ -59,18 +59,22 @@ const KuratorForm = (
               <Image
                 onClick={() => {
                   setIsSelected(
-                    isSelected === object_number ? undefined : object_number
+                    isSelected === img.object_number
+                      ? undefined
+                      : img.object_number
                   );
                   setSelectedImages(
-                    selectedImages.includes(object_number)
-                      ? selectedImages.filter((item) => item == object_number)
-                      : selectedImages.concat(object_number)
+                    selectedImages.includes(img.object_number)
+                      ? selectedImages.filter(
+                          (item) => item == img.object_number
+                        )
+                      : selectedImages.concat(img.object_number)
                   );
                   console.log(
                     "selectedImages",
                     selectedImages,
                     "object_number: ",
-                    object_number
+                    img.object_number
                   );
                 }}
                 key={img.object_number}
