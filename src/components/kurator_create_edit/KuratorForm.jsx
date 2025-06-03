@@ -17,13 +17,8 @@ const KuratorForm = (
 ) => {
   console.log("KuratorForm", images.images);
   const { register, handleSubmit } = useForm();
+  const [selectedImages, setSelectedImages] = useState([]);
 
-  setSelectedImages(
-          selectedImages.includes(object_number)
-            ? selectedImages.filter((item) => item !== object_number)
-            : selectedImages.concat(object_number)
-        );
-        console.log("selectedImages", selectedImages);
 
   return (
     <form
@@ -66,7 +61,14 @@ const KuratorForm = (
 
             return (
               <Image
-              onClick={}
+              onClick={
+                  {setSelectedImages(
+          selectedImages.includes(object_number)
+            ? selectedImages.filter((item) => item !== object_number)
+            : selectedImages.concat(object_number)
+        );
+        console.log("selectedImages", selectedImages);}
+              }
                 key={img.id}
                 src={img.image_thumbnail || img.image_native || Placeholder}
                 width={img.image_width || 400}
