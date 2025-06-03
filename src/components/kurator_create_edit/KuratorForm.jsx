@@ -70,6 +70,7 @@ const KuratorForm = (
                   );
                 }}
                 key={img.id}
+                object_number={img.object_number}
                 src={img.image_thumbnail || img.image_native || Placeholder}
                 width={img.image_width || 400}
                 height={img.image_height || 400}
