@@ -32,35 +32,6 @@ export async function getEventLocations() {
   return eventslocations;
 }
 
-export async function createEvent(eventData) {
-  const response = await fetch(
-    "https://ema-async-exhibit-server.onrender.com/events",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(eventData),
-    }
-  );
-  return response.json();
-}
-
-export async function updateEvent(id, eventData) {
-  const response = await fetch(
-    `https://ema-async-exhibit-server.onrender.com/events/${id}`,
-    {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(eventData),
-    }
-  );
-
-  return response.json();
-}
-
 // SMK ENDPOINTS
 
 export async function getSMK() {
@@ -138,4 +109,49 @@ export async function getSMKFilterCat() {
     },
   ];
   return categories;
+}
+
+// --------------------------------   Til Event Create, Edit og Delete   --------------------------------------------//
+
+export async function createEvent(eventData) {
+  const response = await fetch(
+    "https://ema-async-exhibit-server.onrender.com/events",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(eventData),
+    }
+  );
+  return response.json();
+}
+
+export async function updateEvent(id, eventData) {
+  const response = await fetch(
+    `https://ema-async-exhibit-server.onrender.com/events/${id}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(eventData),
+    }
+  );
+
+  return response.json();
+}
+export async function deleteEvent(id, eventData) {
+  const response = await fetch(
+    `https://ema-async-exhibit-server.onrender.com/events/${id}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(eventData),
+    }
+  );
+
+  return response.json();
 }
