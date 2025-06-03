@@ -50,20 +50,24 @@ const KuratorForm = (
         className="border-2 border-amber-700"
         defaultValue={"Billeder"}
       ></input>
-      <li className="relative border-2 aspect-square">
-        {images.images.map((img) => {
-          return (
-            <Image
-              key={img.id}
-              src={img.image_thumbnail || img.image_native || Placeholder}
-              width={img.image_width || 400}
-              height={img.image_height || 400}
-              alt={img.title || "SMK billede"}
-              className="object-cover w-full h-full"
-            />
-          );
-        })}
-      </li>
+      <ul className="grid grid-cols-3 gap-x-(--space-2rem)">
+        <li className="col-3 row-span-2">Filter her</li>
+        <li className="col-start-1 col-end-3 grid grid-cols-4 gap-(--space-1rem)">
+          {images.images.map((img) => {
+            return (
+              <Image
+              onClick={}
+                key={img.id}
+                src={img.image_thumbnail || img.image_native || Placeholder}
+                width={img.image_width || 400}
+                height={img.image_height || 400}
+                alt={img.title || "SMK billede"}
+                className="object-cover w-full h-full col-span-1 row-span-1"
+              />
+            );
+          })}
+        </li>
+      </ul>
       <CustomButton type="Submit" text="Submit"></CustomButton>
     </form>
   );
