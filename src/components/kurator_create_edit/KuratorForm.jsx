@@ -17,7 +17,13 @@ const KuratorForm = (
 ) => {
   console.log("KuratorForm", images.images);
   const { register, handleSubmit } = useForm();
-  const [isSelected, setIsSelected] = useState(false);
+
+  setSelectedImages(
+          selectedImages.includes(object_number)
+            ? selectedImages.filter((item) => item !== object_number)
+            : selectedImages.concat(object_number)
+        );
+        console.log("selectedImages", selectedImages);
 
   return (
     <form
@@ -54,6 +60,10 @@ const KuratorForm = (
         <li className="col-3 row-span-2">Filter her</li>
         <li className="col-start-1 col-end-3 grid grid-cols-4 gap-(--space-1rem)">
           {images.images.map((img) => {
+
+
+
+
             return (
               <Image
               onClick={}
