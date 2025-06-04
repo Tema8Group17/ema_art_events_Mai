@@ -20,10 +20,15 @@ const KuratorForm = (
   const [isSelected, setIsSelected] = useState();
   const [selectedImages, setSelectedImages] = useState([]);
 
+  const onSubmit = async (data) => {
+    const opret = await createEvent(data);
+    console.log("onSubmit function: ", data, opret);
+  };
+
   return (
     <form
       onSubmit={handleSubmit((data) => {
-        console.log("onSubmit: ", data, "selectedImages", selectedImages);
+        console.log("onSubmit form: ", data, "selectedImages", selectedImages);
       })}
       className="flex flex-col gap-(--space-2rem)"
     >
