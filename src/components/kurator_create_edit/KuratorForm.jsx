@@ -15,13 +15,13 @@ const KuratorForm = ({ images, locations, prevData }) => {
   // PATCH
 
   //
-  console.log(
-    "KuratorForm: ",
-    "prevData",
-    prevData,
-    "prevData.artworkIds",
-    prevData.artworkIds
-  );
+  // console.log(
+  //   "KuratorForm: ",
+  //   "prevData",
+  //   prevData,
+  //   "prevData.artworkIds",
+  //   prevData.artworkIds
+  // );
   const { register, handleSubmit } = useForm({
     defaultValues: prevData || {},
   });
@@ -97,8 +97,30 @@ const KuratorForm = ({ images, locations, prevData }) => {
                       : img.object_number
                   );
                   if (prevData) {
-                    setSelectedImages(prevData.artworkIds);
-                    console.log("onClick: prevData: ", selectedImages);
+                    const updateSelection = selectedImages.includes(
+                      img.object_number
+                    )
+                      ? selectedImages.filter(
+                          (item) => item == img.object_number
+                        )
+                      : selectedImages.concat(img.object_number);
+
+                    const combined = updateSelection.concat(
+                      prevData.artworkIds
+                    );
+
+                    setSelectedImages(combined);
+                    console.log(
+                      "onClick: if prevData: ",
+                      "slectedImages",
+                      selectedImages,
+                      "prevData.artworkIds",
+                      prevData.artworkIds,
+                      "updateSelection",
+                      updateSelection,
+                      "combined: ",
+                      combined
+                    );
                   } else {
                     setSelectedImages(
                       selectedImages.includes(img.object_number)
@@ -107,7 +129,7 @@ const KuratorForm = ({ images, locations, prevData }) => {
                           )
                         : selectedImages.concat(img.object_number)
                     );
-                    console.log("onClick: ", selectedImages);
+                    console.log("onClick: selectedImages", selectedImages);
                   }
                 }}
                 key={img.object_number}
