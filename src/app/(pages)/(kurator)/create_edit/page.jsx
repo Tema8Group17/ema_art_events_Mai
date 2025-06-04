@@ -1,12 +1,18 @@
 import KuratorForm from "@/components/kurator_create_edit/KuratorForm";
-import { getSMKImg } from "@/lib/api";
+import { getEvent, getEventLocations, getSMKImg } from "@/lib/api";
 
 export default async function CreateEditEventPage() {
   const images = await getSMKImg();
+  const events = await getEvent();
+  const locations = await getEventLocations();
   return (
     <main>
       <h1>Create Edit</h1>
-      <KuratorForm images={images}></KuratorForm>
+      <KuratorForm
+        images={images}
+        events={events}
+        locations={locations}
+      ></KuratorForm>
     </main>
   );
 }

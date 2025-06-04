@@ -6,51 +6,60 @@ import Image from "next/image";
 // ---------------------------   Components -------------------------------------//
 import CustomButton from "../global/CustomButton";
 import Placeholder from "../../app/assets/img/placeholder.png";
+import { createEvent } from "@/lib/api";
 
 // ----------------------------- KuratorForm ---------------------------------- //
 const KuratorForm = (
   images,
+  events,
+  locations,
   image_thumbnail,
   image_width,
   image_height,
   object_number,
   title
 ) => {
+  console.log(images, events, locations);
   const { register, handleSubmit } = useForm();
   const [isSelected, setIsSelected] = useState();
   const [selectedImages, setSelectedImages] = useState([]);
 
   const onSubmit = async (data) => {
     const opret = await createEvent(data);
-    console.log("onSubmit function: ", data, opret);
+    console.log(
+      "onSubmit function: ",
+      data,
+      "createEvent",
+      opret,
+      "Events: ",
+      events
+    );
   };
 
   return (
     <form
-      onSubmit={handleSubmit((data) => {
-        console.log("onSubmit form: ", data, "selectedImages", selectedImages);
-      })}
+      onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-(--space-2rem)"
     >
       <input
         className="border-2 border-amber-700"
-        defaultValue={"Titel"}
-        {...register("Titel")}
+        defaultValue={"Title"}
+        {...register("title")}
       ></input>
       <input
         className="border-2 border-amber-700"
         defaultValue={"Dato"}
-        {...register("Dato")}
+        {...register("date")}
       ></input>
       <input
         className="border-2 border-amber-700"
         defaultValue={"Lokation"}
-        {...register("Lokation")}
+        {...register("name")}
       ></input>
       <input
         className="border-2 border-amber-700"
         defaultValue={"Beskrivelse"}
-        {...register("Beskrivelse")}
+        {...register("description")}
       ></input>
       <input
         className="border-2 border-amber-700"
