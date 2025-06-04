@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Image from "next/image";
@@ -6,39 +7,48 @@ import Image from "next/image";
 // ---------------------------   Components -------------------------------------//
 import CustomButton from "../global/CustomButton";
 import Placeholder from "../../app/assets/img/placeholder.png";
-import { createEvent } from "@/lib/api";
+import { createEvent, updateEvent } from "@/lib/api";
+import { useSearchParams } from "next/navigation";
 
 // ----------------------------- KuratorForm ---------------------------------- //
-const KuratorForm = ({ images, events, locations }) => {
-  // console.log(
-  //   "KuratorForm: ",
-  //   "images",
-  //   images,
-  //   "events",
-  //   events,
-  //   "locations",
-  //   locations
-  // );
-  const { register, handleSubmit } = useForm();
+const KuratorForm = ({ images, locations, prevData }) => {
+  // PATCH
+
+  //
+  console.log(
+    "KuratorForm: ",
+    "prevData",
+    prevData,
+    "prevData.artworkIds",
+    prevData.artworkIds
+  );
+  const { register, handleSubmit } = useForm({
+    defaultValues: prevData || {},
+  });
   const [isSelected, setIsSelected] = useState();
   const [selectedImages, setSelectedImages] = useState([]);
 
   const onSubmit = async (data) => {
-    const indhold = {
-      title: data.title,
-      date: data.date,
-      locationId: data.locationId,
-      description: data.description,
-      artworkIds: selectedImages,
-    };
-    console.log(
-      "onSubmit function: ",
-      "indhold",
-      indhold,
-      "selectedImages",
-      selectedImages
-    );
-    const opret = await createEvent(indhold);
+    if (prevData && prevData.id) {
+      await updateEvent(prevData.id, data);
+    } else {
+      const indhold = {
+        title: data.title,
+        date: data.date,
+        locationId: data.locationId,
+        description: data.description,
+        artworkIds: selectedImages,
+      };
+
+      console.log(
+        "onSubmit function: ",
+        "indhold",
+        indhold,
+        "selectedImages",
+        selectedImages
+      );
+      const opret = await createEvent(indhold);
+    }
   };
 
   return (
@@ -69,11 +79,11 @@ const KuratorForm = ({ images, events, locations }) => {
           );
         })}
       </select>
-      <input
+      <textarea
         className="border-2 border-amber-700"
         defaultValue={"Beskrivelse"}
         {...register("description")}
-      ></input>
+      ></textarea>
       <ul className="grid grid-cols-3 gap-x-(--space-2rem)">
         <li className="col-3 row-span-2">Filter her</li>
         <li className="col-start-1 col-end-3 grid grid-cols-4 gap-(--space-1rem)">
@@ -86,14 +96,19 @@ const KuratorForm = ({ images, events, locations }) => {
                       ? undefined
                       : img.object_number
                   );
-                  setSelectedImages(
-                    selectedImages.includes(img.object_number)
-                      ? selectedImages.filter(
-                          (item) => item == img.object_number
-                        )
-                      : selectedImages.concat(img.object_number)
-                  );
-                  console.log("onClick", selectedImages);
+                  if (prevData) {
+                    setSelectedImages(prevData.artworkIds);
+                    console.log("onClick: prevData: ", selectedImages);
+                  } else {
+                    setSelectedImages(
+                      selectedImages.includes(img.object_number)
+                        ? selectedImages.filter(
+                            (item) => item == img.object_number
+                          )
+                        : selectedImages.concat(img.object_number)
+                    );
+                    console.log("onClick: ", selectedImages);
+                  }
                 }}
                 key={img.object_number}
                 src={img.image_thumbnail || img.image_native || Placeholder}

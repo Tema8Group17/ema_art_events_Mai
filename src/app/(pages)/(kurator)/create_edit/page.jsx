@@ -1,10 +1,16 @@
 import KuratorForm from "@/components/kurator_create_edit/KuratorForm";
-import { getEvent, getEventLocations, getSMKImg } from "@/lib/api";
+import { getEvent, getEventId, getEventLocations, getSMKImg } from "@/lib/api";
 
-export default async function CreateEditEventPage() {
+export default async function CreateEditEventPage({ searchParams }) {
   const images = await getSMKImg();
   const events = await getEvent();
   const locations = await getEventLocations();
+  const eventId = await searchParams.eventId;
+  let prevData = null;
+  if (eventId) {
+    prevData = await getEventId(eventId);
+  }
+
   console.log(
     "page: ",
     "images",
@@ -12,7 +18,11 @@ export default async function CreateEditEventPage() {
     "events",
     events,
     "locations",
-    locations
+    locations,
+    "eventId",
+    eventId,
+    "prevData",
+    prevData
   );
   return (
     <main>
@@ -21,6 +31,7 @@ export default async function CreateEditEventPage() {
         images={images}
         events={events}
         locations={locations}
+        prevData={prevData}
       ></KuratorForm>
     </main>
   );
