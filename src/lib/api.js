@@ -113,7 +113,7 @@ export async function getSMKFilterCat() {
 
 // --------------------------------   Til Event Create, Edit og Delete   --------------------------------------------//
 
-export async function createEvent(data) {
+export async function createEvent(indhold) {
   const response = await fetch(
     "https://ema-async-exhibit-server.onrender.com/events",
     {
@@ -121,7 +121,7 @@ export async function createEvent(data) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(indhold),
     }
   );
   return response.json();

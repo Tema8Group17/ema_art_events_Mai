@@ -9,23 +9,36 @@ import Placeholder from "../../app/assets/img/placeholder.png";
 import { createEvent } from "@/lib/api";
 
 // ----------------------------- KuratorForm ---------------------------------- //
-const KuratorForm = (images, events, locations) => {
-  console.log(
-    "KuratorForm: ",
-    "images",
-    images,
-    "events",
-    events,
-    "locations",
-    locations
-  );
+const KuratorForm = ({ images, events, locations }) => {
+  // console.log(
+  //   "KuratorForm: ",
+  //   "images",
+  //   images,
+  //   "events",
+  //   events,
+  //   "locations",
+  //   locations
+  // );
   const { register, handleSubmit } = useForm();
   const [isSelected, setIsSelected] = useState();
   const [selectedImages, setSelectedImages] = useState([]);
 
   const onSubmit = async (data) => {
-    const opret = await createEvent(data);
-    console.log("onSubmit function: ", data, "createEvent", opret);
+    const indhold = {
+      title: data.title,
+      date: data.date,
+      locationId: data.locationId,
+      description: data.description,
+      artworkIds: selectedImages,
+    };
+    console.log(
+      "onSubmit function: ",
+      "indhold",
+      indhold,
+      "selectedImages",
+      selectedImages
+    );
+    const opret = await createEvent(indhold);
   };
 
   return (
@@ -61,14 +74,10 @@ const KuratorForm = (images, events, locations) => {
         defaultValue={"Beskrivelse"}
         {...register("description")}
       ></input>
-      <input
-        className="border-2 border-amber-700"
-        defaultValue={"Billeder"}
-      ></input>
       <ul className="grid grid-cols-3 gap-x-(--space-2rem)">
         <li className="col-3 row-span-2">Filter her</li>
         <li className="col-start-1 col-end-3 grid grid-cols-4 gap-(--space-1rem)">
-          {images.images.map((img) => {
+          {images.map((img) => {
             return (
               <Image
                 onClick={() => {
@@ -84,12 +93,7 @@ const KuratorForm = (images, events, locations) => {
                         )
                       : selectedImages.concat(img.object_number)
                   );
-                  console.log(
-                    "selectedImages",
-                    selectedImages,
-                    "object_number: ",
-                    img.object_number
-                  );
+                  console.log("onClick", selectedImages);
                 }}
                 key={img.object_number}
                 src={img.image_thumbnail || img.image_native || Placeholder}
