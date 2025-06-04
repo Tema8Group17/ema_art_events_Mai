@@ -9,31 +9,23 @@ import Placeholder from "../../app/assets/img/placeholder.png";
 import { createEvent } from "@/lib/api";
 
 // ----------------------------- KuratorForm ---------------------------------- //
-const KuratorForm = (
-  images,
-  events,
-  locations,
-  image_thumbnail,
-  image_width,
-  image_height,
-  object_number,
-  title
-) => {
-  console.log(images, events, locations);
+const KuratorForm = (images, events, locations) => {
+  console.log(
+    "KuratorForm: ",
+    "images",
+    images,
+    "events",
+    events,
+    "locations",
+    locations
+  );
   const { register, handleSubmit } = useForm();
   const [isSelected, setIsSelected] = useState();
   const [selectedImages, setSelectedImages] = useState([]);
 
   const onSubmit = async (data) => {
     const opret = await createEvent(data);
-    console.log(
-      "onSubmit function: ",
-      data,
-      "createEvent",
-      opret,
-      "Events: ",
-      events
-    );
+    console.log("onSubmit function: ", data, "createEvent", opret);
   };
 
   return (
@@ -51,11 +43,19 @@ const KuratorForm = (
         defaultValue={"Dato"}
         {...register("date")}
       ></input>
-      <input
+      <select
         className="border-2 border-amber-700"
         defaultValue={"Lokation"}
-        {...register("name")}
-      ></input>
+        {...register("locationId")}
+      >
+        {locations.map((location) => {
+          return (
+            <option key={location.id} value={location.id}>
+              {location.name}(Max billeder: {location.maxArtWorks})
+            </option>
+          );
+        })}
+      </select>
       <input
         className="border-2 border-amber-700"
         defaultValue={"Beskrivelse"}
