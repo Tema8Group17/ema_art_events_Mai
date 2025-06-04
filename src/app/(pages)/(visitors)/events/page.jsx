@@ -11,8 +11,8 @@ import EventListWithFilter from "@/components/global/EventListWithFilter";
 
 export default async function Events() {
   const eventListRaw = await getEvent();
-  const eventsDates = await getEventDates();
   const smk = await getSMK();
+  const eventsDates = await getEventDates();
   const eventsLocations = await getEventLocations();
   const categories = await getSMKFilterCat();
 
