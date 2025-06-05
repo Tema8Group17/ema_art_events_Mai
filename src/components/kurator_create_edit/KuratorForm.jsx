@@ -61,7 +61,7 @@ const KuratorForm = ({ images, locations, prevData }) => {
         {locations.map((location) => {
           return (
             <option key={location.id} value={location.id}>
-              {location.name}(Max billeder: {location.maxArtWorks})
+              {location.name}(Max billeder: {location.maxArtworks})
             </option>
           );
         })}
@@ -97,10 +97,10 @@ const KuratorForm = ({ images, locations, prevData }) => {
                   selectedImages.length === 0
                     ? prevData?.artworkIds?.includes(img.object_number)
                       ? "border-4 border-green-500 order-first"
-                      : "opacity-50"
+                      : ""
                     : selectedImages.includes(img.object_number)
                     ? "border-4 border-green-500 order-first"
-                    : "opacity-50"
+                    : ""
                 }`}
               />
             );
