@@ -21,14 +21,21 @@ const KuratorForm = ({ images, locations, prevData }) => {
   const [selectedImages, setSelectedImages] = useState(
     prevData?.artworkIds || []
   );
-  const [selectedLocation, setSelectedLocation] = useState();
+  const [selectedLocation, setSelectedLocation] = useState(
+    prevData?.locationId
+  );
   const locationData = locations.find((item) => item.id === selectedLocation);
-  console.log("location Data i starten", locationData);
+  console.log(
+    "location selected i starten",
+    selectedLocation,
+    "locationData",
+    locationData
+  );
   const onSubmit = async (data) => {
     const indhold = {
       title: data.title,
       date: data.date,
-      locationId: data.locationId,
+      locationId: Number(data.locationId),
       description: data.description,
       artworkIds: selectedImages,
     };
@@ -82,7 +89,10 @@ const KuratorForm = ({ images, locations, prevData }) => {
             return (
               <Image
                 onClick={() => {
-                  if (selectedImages.length <= locationData.maxArtworks - 1) {
+                  if (
+                    selectedImages.length <= prevData?.locationId ||
+                    locationData.maxArtworks - 1
+                  ) {
                     const newSelection = selectedImages.includes(
                       img.object_number
                     )
@@ -112,15 +122,19 @@ const KuratorForm = ({ images, locations, prevData }) => {
                 height={img.image_height || 400}
                 alt={img.title || "SMK billede"}
                 className={`object-cover w-full h-full col-span-1 row-span-1 ${
+                  // Hvis antal images er 3 og maxArtwork er 4, så returner den false
                   selectedImages.length > locationData?.maxArtworks
-                    ? prevData?.artworkIds?.includes(img.object_number)
+                    ? // hvis den returner false tjekker den om der er prevData eller ej hvis true, green border, ellers ingenting.
+                      prevData?.artworkIds?.includes(img.object_number)
                       ? "border-4 border-green-500 order-first"
                       : ""
-                    : selectedImages.includes(img.object_number)
+                    : //hvis PrevData ikke er tilgængelig så tjekkes der om selected image indeholder object_number, hvis true retunerer den green border
+                    selectedImages.includes(img.object_number)
                     ? "border-4 border-green-500 order-first"
-                    : selectedImages.length == locationData?.maxArtworks
+                    : // hvis images længde er ligmed max artworks så skal den retunere opacity.
+                    selectedImages.length == locationData?.maxArtworks
                     ? "opacity-25"
-                    : "opacity-80"
+                    : ""
                 }`}
               />
             );
