@@ -21,7 +21,9 @@ const KuratorForm = ({ images, locations, prevData }) => {
   const [selectedImages, setSelectedImages] = useState(
     prevData?.artworkIds || []
   );
-
+  const [selectedLocation, setSelectedLocation] = useState();
+  const locationData = locations.find((item) => item.id === selectedLocation);
+  console.log("location Data i starten", locationData);
   const onSubmit = async (data) => {
     const indhold = {
       title: data.title,
@@ -57,7 +59,9 @@ const KuratorForm = ({ images, locations, prevData }) => {
         className="border-2 border-amber-700"
         defaultValue={"Lokation"}
         {...register("locationId")}
+        onChange={(e) => setSelectedLocation(e.target.value)}
       >
+        <option>Vælg Lokation</option>
         {locations.map((location) => {
           return (
             <option key={location.id} value={location.id}>
@@ -78,15 +82,29 @@ const KuratorForm = ({ images, locations, prevData }) => {
             return (
               <Image
                 onClick={() => {
-                  const newSelection = selectedImages.includes(
-                    img.object_number
-                  )
-                    ? selectedImages.filter(
-                        (item) => item !== img.object_number
-                      )
-                    : selectedImages.concat(img.object_number);
-                  console.log("onClick: newSelection", newSelection);
-                  setSelectedImages(newSelection);
+                  if (selectedImages.length <= locationData.maxArtworks - 1) {
+                    const newSelection = selectedImages.includes(
+                      img.object_number
+                    )
+                      ? selectedImages.filter(
+                          (item) => item !== img.object_number
+                        )
+                      : selectedImages.concat(img.object_number);
+
+                    setSelectedImages(newSelection);
+                    console.log(
+                      "onClick: newSelection",
+                      newSelection,
+                      "selectedLocation",
+                      selectedLocation,
+                      "locationData.maxArtworks: ",
+                      locationData.maxArtworks,
+                      "selectedLocation.max",
+                      selectedLocation.maxArtworks
+                    );
+                  } else {
+                    console.log("NO!");
+                  }
                 }}
                 key={img.object_number}
                 src={img.image_thumbnail || img.image_native || Placeholder}
@@ -94,13 +112,15 @@ const KuratorForm = ({ images, locations, prevData }) => {
                 height={img.image_height || 400}
                 alt={img.title || "SMK billede"}
                 className={`object-cover w-full h-full col-span-1 row-span-1 ${
-                  selectedImages.length === 0
+                  selectedImages.length > locationData?.maxArtworks
                     ? prevData?.artworkIds?.includes(img.object_number)
                       ? "border-4 border-green-500 order-first"
                       : ""
                     : selectedImages.includes(img.object_number)
                     ? "border-4 border-green-500 order-first"
-                    : ""
+                    : selectedImages.length == locationData?.maxArtworks
+                    ? "opacity-25"
+                    : "opacity-80"
                 }`}
               />
             );
