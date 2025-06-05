@@ -25,12 +25,19 @@ const KuratorForm = ({ images, locations, prevData }) => {
   const { register, handleSubmit } = useForm({
     defaultValues: prevData || {},
   });
-  const [isSelected, setIsSelected] = useState();
+  // const [isSelected, setIsSelected] = useState();
   const [selectedImages, setSelectedImages] = useState([]);
 
   const onSubmit = async (data) => {
+    const indhold = {
+      title: data.title,
+      date: data.date,
+      locationId: data.locationId,
+      description: data.description,
+      artworkIds: selectedImages,
+    };
     if (prevData && prevData.id) {
-      await updateEvent(prevData.id, data);
+      await updateEvent(prevData.id, indhold);
     } else {
       const indhold = {
         title: data.title,
@@ -91,41 +98,37 @@ const KuratorForm = ({ images, locations, prevData }) => {
             return (
               <Image
                 onClick={() => {
-                  setIsSelected(
-                    isSelected === img.object_number
-                      ? undefined
-                      : img.object_number
-                  );
                   if (prevData) {
-                    const updateSelection = selectedImages.includes(
+                    // ----------------- id prevData ------------------------- //
+                    const newSelection = selectedImages.includes(
                       img.object_number
                     )
                       ? selectedImages.filter(
-                          (item) => item == img.object_number
+                          (item) => item !== img.object_number
                         )
                       : selectedImages.concat(img.object_number);
 
-                    const combined = updateSelection.concat(
-                      prevData.artworkIds
+                    prevData.artworkIds.map((previtems) =>
+                      previtems.concat(newSelection)
                     );
 
-                    setSelectedImages(combined);
+                    setSelectedImages(newSelection);
                     console.log(
                       "onClick: if prevData: ",
                       "slectedImages",
                       selectedImages,
                       "prevData.artworkIds",
                       prevData.artworkIds,
-                      "updateSelection",
-                      updateSelection,
-                      "combined: ",
-                      combined
+                      "newSelection: ",
+                      newSelection
                     );
-                  } else {
+                  }
+                  // --------------------------- if not prevData -----------------------//
+                  else {
                     setSelectedImages(
                       selectedImages.includes(img.object_number)
                         ? selectedImages.filter(
-                            (item) => item == img.object_number
+                            (item) => item !== img.object_number
                           )
                         : selectedImages.concat(img.object_number)
                     );
@@ -137,7 +140,16 @@ const KuratorForm = ({ images, locations, prevData }) => {
                 width={img.image_width || 400}
                 height={img.image_height || 400}
                 alt={img.title || "SMK billede"}
-                className="object-cover w-full h-full col-span-1 row-span-1"
+                className={`object-cover w-full h-full col-span-1 row-span-1 ${
+                  // hvis prevData har artworkIds der matcher object_number så skal border vises medmindre selectedImage er mere end 0
+                  selectedImages.length === 0
+                    ? prevData?.artworkIds?.includes(img.object_number)
+                      ? "border-4 border-green-500 order-first"
+                      : "opacity-50"
+                    : selectedImages.includes(img.object_number)
+                    ? "border-4 border-green-500 order-first"
+                    : "opacity-50"
+                }`}
               />
             );
           })}
