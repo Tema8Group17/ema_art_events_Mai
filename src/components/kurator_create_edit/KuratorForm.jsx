@@ -35,7 +35,7 @@ const KuratorForm = ({ images, locations, prevData }) => {
     const indhold = {
       title: data.title,
       date: data.date,
-      locationId: Number(data.locationId),
+      locationId: data.locationId,
       description: data.description,
       artworkIds: selectedImages,
     };
