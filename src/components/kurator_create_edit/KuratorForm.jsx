@@ -45,12 +45,7 @@ const KuratorForm = ({ images, locations, prevData, categories }) => {
     prevData?.locationId
   );
   const locationData = locations.find((item) => item.id === selectedLocation);
-  console.log(
-    "location selected i starten",
-    selectedLocation,
-    "locationData",
-    locationData
-  );
+
   const onSubmit = async (data) => {
     const indhold = {
       title: data.title,
@@ -162,7 +157,58 @@ const KuratorForm = ({ images, locations, prevData, categories }) => {
             }) && isPending ? (
               <p>Indlæser SMK billeder...</p>
             ) : state?.data?.length === 0 ? (
-              <p className="text-red-500">Ingen billeder fundet.</p>
+              images.map((item, id) => (
+                <Image
+                  onClick={() => {
+                    if (
+                      selectedImages.length <= prevData?.locationId ||
+                      locationData.maxArtworks - 1
+                    ) {
+                      const newSelection = selectedImages.includes(
+                        item.object_number
+                      )
+                        ? selectedImages.filter(
+                            (item) => item !== item.object_number
+                          )
+                        : selectedImages.concat(item.object_number);
+
+                      setSelectedImages(newSelection);
+                      console.log(
+                        "onClick: newSelection",
+                        newSelection,
+                        "selectedLocation",
+                        selectedLocation,
+                        "locationData.maxArtworks: ",
+                        locationData.maxArtworks,
+                        "selectedLocation.max",
+                        selectedLocation.maxArtworks
+                      );
+                    } else {
+                      console.log("NO!");
+                    }
+                  }}
+                  key={id}
+                  src={item.image_thumbnail || item.image_native || Placeholder}
+                  width={item.image_width || 400}
+                  height={item.image_height || 400}
+                  alt={item.title || "SMK billede"}
+                  className={`object-cover w-full h-full col-span-1 row-span-1 ${
+                    // Hvis antal images er 3 og maxArtwork er 4, så returner den false
+                    selectedImages.length > locationData?.maxArtworks
+                      ? // hvis den returner false tjekker den om der er prevData eller ej hvis true, green border, ellers ingenting.
+                        prevData?.artworkIds?.includes(item.object_number)
+                        ? "border-4 border-green-500 order-first"
+                        : ""
+                      : //hvis PrevData ikke er tilgængelig så tjekkes der om selected image indeholder object_number, hvis true retunerer den green border
+                      selectedImages.includes(item.object_number)
+                      ? "border-4 border-green-500 order-first"
+                      : // hvis images længde er ligmed max artworks så skal den retunere opacity.
+                      selectedImages.length == locationData?.maxArtworks
+                      ? "opacity-25"
+                      : ""
+                  }`}
+                />
+              ))
             ) : (
               state?.data?.map((item, id) => (
                 <Image
@@ -180,6 +226,16 @@ const KuratorForm = ({ images, locations, prevData, categories }) => {
                         : selectedImages.concat(img.object_number);
 
                       setSelectedImages(newSelection);
+                      console.log(
+                        "onClick: newSelection",
+                        newSelection,
+                        "selectedLocation",
+                        selectedLocation,
+                        "locationData.maxArtworks: ",
+                        locationData.maxArtworks,
+                        "selectedLocation.max",
+                        selectedLocation.maxArtworks
+                      );
                     } else {
                       console.log("NO!");
                     }
@@ -208,63 +264,8 @@ const KuratorForm = ({ images, locations, prevData, categories }) => {
               ))
             )
           ) : (
-            "Vælg en lokation for at vælge værker"
+            "Vælg en lokation"
           )}
-
-          {/* {images.map((img) => {
-            return (
-              <Image
-                onClick={() => {
-                  if (
-                    selectedImages.length <= prevData?.locationId ||
-                    locationData.maxArtworks - 1
-                  ) {
-                    const newSelection = selectedImages.includes(
-                      img.object_number
-                    )
-                      ? selectedImages.filter(
-                          (item) => item !== img.object_number
-                        )
-                      : selectedImages.concat(img.object_number);
-
-                    setSelectedImages(newSelection);
-                    console.log(
-                      "onClick: newSelection",
-                      newSelection,
-                      "selectedLocation",
-                      selectedLocation,
-                      "locationData.maxArtworks: ",
-                      locationData.maxArtworks,
-                      "selectedLocation.max",
-                      selectedLocation.maxArtworks
-                    );
-                  } else {
-                    console.log("NO!");
-                  }
-                }}
-                key={img.object_number}
-                src={img.image_thumbnail || img.image_native || Placeholder}
-                width={img.image_width || 400}
-                height={img.image_height || 400}
-                alt={img.title || "SMK billede"}
-                className={`object-cover w-full h-full col-span-1 row-span-1 ${
-                  // Hvis antal images er 3 og maxArtwork er 4, så returner den false
-                  selectedImages.length > locationData?.maxArtworks
-                    ? // hvis den returner false tjekker den om der er prevData eller ej hvis true, green border, ellers ingenting.
-                      prevData?.artworkIds?.includes(img.object_number)
-                      ? "border-4 border-green-500 order-first"
-                      : ""
-                    : //hvis PrevData ikke er tilgængelig så tjekkes der om selected image indeholder object_number, hvis true retunerer den green border
-                    selectedImages.includes(img.object_number)
-                    ? "border-4 border-green-500 order-first"
-                    : // hvis images længde er ligmed max artworks så skal den retunere opacity.
-                    selectedImages.length == locationData?.maxArtworks
-                    ? "opacity-25"
-                    : ""
-                }`}
-              />
-            );
-          })} */}
         </li>
       </ul>
       <CustomButton type="Submit" text="Submit"></CustomButton>
