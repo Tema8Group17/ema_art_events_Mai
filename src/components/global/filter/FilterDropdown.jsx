@@ -18,7 +18,7 @@ export default function FilterDropdown({
 }) {
   return (
     <Select onValueChange={(e) => action(e, name)}>
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="w-[180px] mb-(--space-1rem)">
         <SelectValue placeholder={`Vælg ${singular.toLowerCase()}`} />
       </SelectTrigger>
       <SelectContent>

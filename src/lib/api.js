@@ -50,7 +50,7 @@ export async function getSMK() {
 
 export async function getSMKImg() {
   const datasSMK = await fetch(
-    "https://api.smk.dk/api/v1/art/search?keys=*&filters=[has_image:true]&offset=0&rows=8",
+    "https://api.smk.dk/api/v1/art/search?keys=*&filters=[has_image:true]&offset=0&rows=2000",
     {
       headers: {
         "Content-Type": "application/json",
