@@ -1,5 +1,6 @@
 import KuratorForm from "@/components/kurator_create_edit/KuratorForm";
 import {
+  getArtworkByEventID,
   getEvent,
   getEventId,
   getEventLocations,
@@ -14,9 +15,22 @@ export default async function CreateEditEventPage({ searchParams }) {
   const locations = await getEventLocations();
   const eventId = await searchParams.eventId;
   let prevData = null;
+  let missingImages = null;
   if (eventId) {
     prevData = await getEventId(eventId);
+    prevData.artworkIds.map((objectNumber) => {
+      missingImages = [objectNumber];
+      console.log(
+        "if eventID: objectNumber: ",
+        objectNumber,
+        "missingImages",
+        missingImages
+      );
+    });
+    await getArtworkByEventID();
   }
+  // prevData.artworksIds;
+  // const imageByID = await getArtworkByEventID(objectNumber);
 
   console.log(
     "page: ",
@@ -29,7 +43,9 @@ export default async function CreateEditEventPage({ searchParams }) {
     "eventId",
     eventId,
     "prevData",
-    prevData
+    prevData,
+    " prevData.artworksIds",
+    prevData.artworksIds
   );
   return (
     <main>
