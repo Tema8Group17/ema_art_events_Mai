@@ -7,13 +7,12 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import CustomButton from "../global/CustomButton";
 
 import { createEvent, updateEvent } from "@/lib/api";
-import { useSearchParams } from "next/navigation";
 import Filter from "../global/filter/Filter";
 import { filterData } from "../global/filter/actions";
 import GalleryImage from "./GalleryImage";
 
 // ----------------------------- KuratorForm ---------------------------------- //
-const KuratorForm = ({ images, locations, prevData, categories }) => {
+const KuratorForm = ({ images, locations, prevData, categories, events }) => {
   // Filter
   const [state, action, isPending] = useActionState(filterData, {
     active: [],
@@ -37,7 +36,7 @@ const KuratorForm = ({ images, locations, prevData, categories }) => {
   const { register, handleSubmit } = useForm({
     defaultValues: prevData || {},
   });
-  // const [isSelected, setIsSelected] = useState();
+
   const [selectedImages, setSelectedImages] = useState(
     prevData?.artworkIds || []
   );
@@ -57,7 +56,7 @@ const KuratorForm = ({ images, locations, prevData, categories }) => {
     if (prevData && prevData.id) {
       await updateEvent(prevData.id, indhold);
     } else {
-      console.log("indhold", indhold);
+      // console.log("indhold", indhold);
       await createEvent(indhold);
     }
   };
@@ -109,9 +108,7 @@ const KuratorForm = ({ images, locations, prevData, categories }) => {
                   id
                   selectedImages={selectedImages}
                   setSelectedImages={setSelectedImages}
-                  selectedLocation={selectedLocation}
                   locationData={locationData}
-                  prevData={prevData}
                 ></GalleryImage>
               );
             }) && isPending ? (
@@ -124,9 +121,7 @@ const KuratorForm = ({ images, locations, prevData, categories }) => {
                   id
                   selectedImages={selectedImages}
                   setSelectedImages={setSelectedImages}
-                  selectedLocation={selectedLocation}
                   locationData={locationData}
-                  prevData={prevData}
                 ></GalleryImage>
               ))
             ) : (
@@ -137,9 +132,7 @@ const KuratorForm = ({ images, locations, prevData, categories }) => {
                   id={id}
                   selectedImages={selectedImages}
                   setSelectedImages={setSelectedImages}
-                  selectedLocation={selectedLocation}
                   locationData={locationData}
-                  prevData={prevData}
                 ></GalleryImage>
               ))
             )

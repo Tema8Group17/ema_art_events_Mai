@@ -50,7 +50,7 @@ export async function getSMK() {
 
 export async function getSMKImg() {
   const datasSMK = await fetch(
-    "https://api.smk.dk/api/v1/art/search?keys=*&filters=[has_image:true]&offset=0&rows=2000",
+    "https://api.smk.dk/api/v1/art/search?keys=*&filters=[has_image:true]&offset=0&rows=10",
     {
       headers: {
         "Content-Type": "application/json",
@@ -60,6 +60,12 @@ export async function getSMKImg() {
   const dataSMK = await datasSMK.json();
   const SMKimages = dataSMK.items;
   return SMKimages;
+}
+export async function getArtworkByID(objectNumber) {
+  const url = `https://api.smk.dk/api/v1/art?object_number=${objectNumber}`;
+  const res = await fetch(url);
+  const artById = await res.json();
+  return artById;
 }
 
 export async function getArtworkByEventID(objectNumber) {
@@ -82,6 +88,7 @@ export async function getSMKFilter(filter, hasImg) {
       },
     }
   ).then((res) => res.json());
+
   return items;
 }
 export async function getSMKFilterCat() {
