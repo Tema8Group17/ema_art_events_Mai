@@ -22,7 +22,7 @@ Mandag Lukket`;
       </div>
 
       <main className="relative z-10 w-full md:gap-(--space-1rem) md:pl-(--space-2rem)">
-        <h1 className="w-[15ch] sm:col-1 sm:row-1 sm:self-end md:col-start-1 md:row-1 h-fit md:mb-(--space-2rem) text-white">
+        <h1 className="w-[15ch] sm:col-1 sm:row-1 sm:self-end md:col-start-1 md:row-1 h-fit md:mb-(--space-1rem) text-white">
           Statens Museum for Kunst
         </h1>
         <CustomButton

@@ -129,7 +129,7 @@ const EventItemText = ({
 
   return (
     <Card className={`md:col-2 max-w-[30ch]`} style={{ minWidth: "250px" }}>
-      <CardHeader className="pr-(--space-1rem) pl-(--space-1rem) pb-(--space-1rem) relative">
+      <CardHeader className=" pb-(--space-1rem) relative">
         <CardTitle className="mb-(--space-0_5rem)">{title}</CardTitle>
         <CardDescription className="mb-1">{date}</CardDescription>
 
@@ -142,9 +142,9 @@ const EventItemText = ({
       </CardContent>
 
       <CardFooter
-        className={`grid grid-cols-auto grid-rows-auto gap-11 items-center justify-between pr-(--space-1rem) pl-(--space-1rem) ${
+        className={`grid grid-cols-auto grid-rows-auto gap-11 items-center justify-between pr-(--space-1rem) ${
           isDashboardPage
-            ? "col-span-1 items-start gap-2"
+            ? "col-span-1 items-start mt-(--space-2rem)"
             : "row-span-1 items-center justify-between"
         }`}
       >
@@ -153,9 +153,9 @@ const EventItemText = ({
             <div onMouseOver={handleHover} onMouseLeave={handleLeave}>
               <Link
                 href={`/eventView/${id}`}
-                className="flex items-start underline text-primary"
+                className="flex items-start underline text-primary mt-(--space-2rem)"
               >
-                Læs mere
+                Se mere eller tilmeld
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="60"
@@ -186,7 +186,7 @@ const EventItemText = ({
           </>
         ) : (
           <div
-            className="flex items-center gap-2"
+            className="flex items-center gap-(--space-1rem)"
             style={{ marginBottom: "auto" }}
           >
             <CustomButton
