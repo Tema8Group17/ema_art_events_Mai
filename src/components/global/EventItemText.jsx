@@ -183,16 +183,6 @@ const EventItemText = ({
                 </svg>
               </Link>
             </div>
-
-            {showTicketCounter && (
-              <TicketCounter
-                eventId={id}
-                totalTickets={totalTickets}
-                bookedTickets={bookedTickets}
-                pricePerTicket={pricePerTicket}
-                eventDetails={eventDataForCart}
-              />
-            )}
           </>
         ) : (
           <div
