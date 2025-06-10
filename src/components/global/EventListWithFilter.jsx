@@ -1,9 +1,10 @@
 "use client";
-import CustomButton from "./CustomButton";
+
 import React, { useState } from "react";
 import EventItem from "@/components/global/EventItem";
 import Filter from "@/components/global/filter/Filter";
 import { usePathname } from "next/navigation";
+import { filterDataEvents } from "./filter/actions";
 
 const EventListWithFilter = ({
   initialEvents,
@@ -26,15 +27,15 @@ const EventListWithFilter = ({
   const applyFilters = (location, date) => {
     let currentFilteredEvents = initialEvents;
 
-    if (location) {
+    if (location && location !== "all") {
       currentFilteredEvents = currentFilteredEvents.filter(
-        (event) => event.location?.id === location
+        (event) => String(event.location?.id) === String(location)
       );
     }
 
-    if (date) {
+    if (date && date !== "all") {
       currentFilteredEvents = currentFilteredEvents.filter(
-        (event) => event.date === date
+        (event) => String(event.date) === String(date)
       );
     }
 
@@ -72,13 +73,13 @@ const EventListWithFilter = ({
       </div>
       <aside className="row-1 flex flex-row items-center justify-between px-(--space-2rem) py-(--space-1rem)">
         <Filter
-          data={categories}
           dates={availableDates}
           locations={availableLocations}
           setSelectedLocation={handleLocationChange}
           setSelectedDate={handleDateChange}
           selectedLocation={selectedLocation}
           selectedDate={selectedDate}
+          styling="w-full"
         />
       </aside>
     </>

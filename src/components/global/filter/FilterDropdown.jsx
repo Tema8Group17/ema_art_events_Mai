@@ -36,7 +36,6 @@ export default function FilterDropdown({
                   {item}
                 </SelectItem>
               );
-            //console.log("if statement: id:", id, "item", item);
           })}
         </SelectGroup>
       </SelectContent>

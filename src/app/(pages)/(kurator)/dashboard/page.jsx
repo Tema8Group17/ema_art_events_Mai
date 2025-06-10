@@ -12,9 +12,6 @@ export default async function Dashboard() {
   const eventListRaw = await getEvent();
   const eventsDates = await getEventDates();
   const eventsLocations = await getEventLocations();
-  //Filter start
-  const categories = await getSMKFilterCat();
-  //Filter end
 
   const eventListWithArtwork = await Promise.all(
     eventListRaw.map(async (event) => {
@@ -35,7 +32,6 @@ export default async function Dashboard() {
         initialEvents={eventListWithArtwork}
         availableDates={eventsDates}
         availableLocations={eventsLocations}
-        categories={categories}
       />
     </main>
   );
