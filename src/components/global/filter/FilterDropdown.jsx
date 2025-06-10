@@ -19,7 +19,7 @@ export default function FilterDropdown({
   // console.log("filterDropdown", items);
   return (
     <Select onValueChange={(e) => action(e, name)}>
-      <SelectTrigger className="w-[180px] mb-(--space-1rem)">
+      <SelectTrigger className=" mb-(--space-1rem) hover:bg-accent w-full">
         <SelectValue
           placeholder={`Vælg ${singular.toLowerCase()}`}
           value="all"

@@ -71,7 +71,6 @@ export default async function CreateEditEventPage({ searchParams }) {
   // );
   return (
     <main>
-      <h1>Create Edit</h1>
       <KuratorForm
         categories={categories}
         images={mergedImages || images}

@@ -20,12 +20,12 @@ const GalleryImage = ({
         selectedImages.includes(item?.object_number) ? " order-first" : ""
       }`}
     >
-      <section className="grid col-start-1 row-start-1 w-full h-full hover:z-10 bg-black/80 p-2 rounded-xs pointer-events-none">
+      <section className="grid col-start-1 row-start-1 w-full h-full hover:z-10 bg-black/50 border-3 border-black pt-4 rounded-xs pointer-events-none">
         <p className=" text-white justify-self-center text-center ">
-          {item?.artist[0] || "Ukendt kunstner"}
+          Artist: {item?.artist[0] || "Ukendt kunstner"}
         </p>
         <p className=" text-white justify-self-center text-center ">
-          {item?.techniques[0] || "Ukendt teknik"}
+          Teknik: {item?.techniques[0] || "Ukendt teknik"}
         </p>
       </section>
       <Image
