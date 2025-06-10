@@ -22,12 +22,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Input } from "@/components/ui/input";
 
 // ----------------------------- KuratorForm ---------------------------------- //
 const KuratorForm = ({ images, locations, prevData, categories, events }) => {
   // Shadcn Calender
   const [open, setOpen] = React.useState(false);
-  const [date, setDate] = (React.useState < Date) | (undefined > undefined);
+  const [date, setDate] = React.useState(undefined);
 
   // PATCH
 
@@ -58,6 +59,21 @@ const KuratorForm = ({ images, locations, prevData, categories, events }) => {
       await createEvent(indhold);
     }
   };
+  const [state, action, isPending] = useActionState(filterData, {
+    active: [],
+    data: [],
+  });
+  function handleFilter(value, category) {
+    const replaceFilter = state?.active?.filter(
+      (item) => !item.includes(category)
+    );
+    const data =
+      value === "all"
+        ? replaceFilter
+        : [...replaceFilter, `[${category}:${value}]`];
+
+    startTransition(action.bind(state, data));
+  }
 
   return (
     <form
